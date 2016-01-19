@@ -35,11 +35,11 @@ class GameBoard
   end
 
   def each_cell_with_location
-    board.each_with_index { |row, row_number|
-      row.each_with_index { |cell, cell_number|
+    board.each_with_index do |row, row_number|
+      row.each_with_index do |cell, cell_number|
         yield cell, [row_number, cell_number]
-      }
-    }
+      end
+    end
   end
 
   def neighbors(row_number, column_number)
@@ -54,6 +54,11 @@ class GameBoard
     end
   end
 
+  def in_board_bounds?(neighbor_row, neighbor_column)
+    (neighbor_row >= 0 && neighbor_row < board.size) &&
+      (neighbor_column >= 0 && neighbor_column < board.size)
+  end
+
   def neighbor_locations(row_number, column_number)
     neighbor_offsets do |row_modifier, column_modifier|
       yield row_number + row_modifier,
@@ -62,8 +67,6 @@ class GameBoard
   end
 
   def neighbor_offsets
-    return to_enum(__callee__) unless block_given?
-
     row_modifier = -1
     3.times do
       column_modifier = -1
@@ -75,11 +78,6 @@ class GameBoard
       end
       row_modifier += 1
     end
-  end
-
-  def in_board_bounds?(neighbor_row, neighbor_column)
-    (neighbor_row >= 0 && neighbor_row < board.size) &&
-      (neighbor_column >= 0 && neighbor_column < board.size)
   end
 
   def is_neighboring_cell?(row_modifier, column_modifier)
