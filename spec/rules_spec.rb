@@ -69,4 +69,17 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                                                [false, true, false]
                                                              ]))}
   end
+
+  describe "any dead cell with exactly three live neighbors comes alive" do
+    Given(:game_board) { GameBoard.new([
+                                         [true, false, false],
+                                         [false, false, true],
+                                         [false, true, false]
+                                       ])}
+    Then { expect(game_board.next_state).to eq(GameBoard.new([
+                                                               [true, false, false],
+                                                               [false, true, true],
+                                                               [false, true, false]
+                                                             ]))}
+  end
 end
