@@ -1,4 +1,4 @@
 require 'rspec'
 require 'rspec-given'
 
-require 'game_board'
+require 'conways_game_of_life'
