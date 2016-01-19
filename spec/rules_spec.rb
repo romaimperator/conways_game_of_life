@@ -1,22 +1,18 @@
-require 'rspec'
-require 'rspec-given'
-require 'game_board'
+require 'spec_helper'
 
 RSpec.describe "Rules to Conway's Game of Life" do
   describe "any living cell with fewer than two live neighbors dies" do
-    Invariant { expect(game_board.next_state).to eq(GameBoard.new([
-                                                                    [false, false, false],
-                                                                    [false, false, false],
-                                                                    [false, false, false]
-                                                                  ])) }
-
     context "only a single cell is alive" do
       Given(:game_board) { GameBoard.new([
                                            [false, false, false],
                                            [false, true, false],
                                            [false, false, false]
                                          ]) }
-      Then { game_board.next_state }
+      Then { expect(game_board.next_state).to eq(GameBoard.new([
+                                                                 [false, false, false],
+                                                                 [false, false, false],
+                                                                 [false, false, false]
+                                                               ])) }
     end
 
     context "there is one living neighbor cell" do
@@ -25,7 +21,39 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                            [false, true, true],
                                            [false, false, false]
                                          ])}
-      Then { game_board.next_state }
+      Then { expect(game_board.next_state).to eq(GameBoard.new([
+                                                                 [false, false, false],
+                                                                 [false, false, true],
+                                                                 [false, false, false]
+                                                               ])) }
+    end
+  end
+
+  describe "any living cell with two or three neighbors lives on" do
+    context "there are two living neighbors" do
+      Given(:game_board) { GameBoard.new([
+                                           [false, true, false],
+                                           [false, true, false],
+                                           [false, true, false]
+                                         ])}
+      Then { expect(game_board.next_state).to eq(GameBoard.new([
+                                                                 [false, true, false],
+                                                                 [false, true, false],
+                                                                 [false, true, false]
+                                                               ]))}
+    end
+
+    context "there are three living neighbors" do
+      Given(:game_board) { GameBoard.new([
+                                           [true, true, false],
+                                           [false, true, false],
+                                           [false, true, false]
+                                         ])}
+      Then { expect(game_board.next_state).to eq(GameBoard.new([
+                                                                 [true, true, false],
+                                                                 [false, true, false],
+                                                                 [false, true, false]
+                                                               ]))}
     end
   end
 end
