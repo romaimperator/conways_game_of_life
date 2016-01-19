@@ -23,7 +23,7 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                          ])}
       Then { expect(game_board.next_state).to eq(GameBoard.new([
                                                                  [false, false, false],
-                                                                 [false, false, true],
+                                                                 [false, false, false],
                                                                  [false, false, false]
                                                                ])) }
     end
@@ -37,9 +37,9 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                            [false, true, false]
                                          ])}
       Then { expect(game_board.next_state).to eq(GameBoard.new([
-                                                                 [false, true, false],
-                                                                 [false, true, false],
-                                                                 [false, true, false]
+                                                                 [false, false, false],
+                                                                 [true, true, true],
+                                                                 [false, false, false]
                                                                ]))}
     end
 
@@ -51,8 +51,8 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                          ])}
       Then { expect(game_board.next_state).to eq(GameBoard.new([
                                                                  [true, true, false],
-                                                                 [false, true, false],
-                                                                 [false, true, false]
+                                                                 [false, true, true],
+                                                                 [false, false, false]
                                                                ]))}
     end
   end
@@ -64,9 +64,9 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                          [false, true, false]
                                        ])}
     Then { expect(game_board.next_state).to eq(GameBoard.new([
-                                                               [true, true, false],
+                                                               [true, true, true],
                                                                [false, false, true],
-                                                               [false, true, false]
+                                                               [false, true, true]
                                                              ]))}
   end
 
@@ -77,9 +77,9 @@ RSpec.describe "Rules to Conway's Game of Life" do
                                          [false, true, false]
                                        ])}
     Then { expect(game_board.next_state).to eq(GameBoard.new([
-                                                               [true, false, false],
-                                                               [false, true, true],
-                                                               [false, true, false]
+                                                               [false, false, false],
+                                                               [false, true, false],
+                                                               [false, false, false]
                                                              ]))}
   end
 end

@@ -6,14 +6,40 @@ class GameBoard
   end
 
   def next_state
-    new_board = board.map { |row| row.map {|cell| cell } }
-    live_neighbors = neighbors(1, 1).count { |cell| cell }
-    if live_neighbors == 2 || live_neighbors == 3
-      new_board[1][1] = true
-    else
-      new_board[1][1] = false
+    GameBoard.new(map_cell_with_live_neighbor_count { |cell, live_neighbors|
+      if (cell && live_neighbors == 2) || live_neighbors == 3
+        true
+      else
+        false
+      end
+    })
+  end
+
+  def ==(other)
+    board == other.board
+  end
+
+  private
+
+  def map_cell_with_live_neighbor_count
+    new_board = duplicate_board
+    each_cell_with_location do |cell, (row_number, column_number)|
+      live_neighbors = neighbors(row_number, column_number).count(true)
+      new_board[row_number][column_number] = yield cell, live_neighbors
     end
-    GameBoard.new(new_board)
+    new_board
+  end
+
+  def duplicate_board
+    board.map { |row| row.map { |cell| cell } }
+  end
+
+  def each_cell_with_location
+    board.each_with_index { |row, row_number|
+      row.each_with_index { |cell, cell_number|
+        yield cell, [row_number, cell_number]
+      }
+    }
   end
 
   def neighbors(row_number, column_number)
@@ -27,12 +53,6 @@ class GameBoard
       end
     end
   end
-
-  def ==(other)
-    board == other.board
-  end
-
-  private
 
   def neighbor_locations(row_number, column_number)
     neighbor_offsets do |row_modifier, column_modifier|
