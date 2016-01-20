@@ -4,6 +4,10 @@ require 'conways_game_of_life'
 
 @quit = false
 
+def clear_screen
+  puts "\e[H\e[2J"
+end
+
 def main
   game_runner = GameRunner.new(
     GameBoard.new([
@@ -19,6 +23,7 @@ def main
     break if @quit
 
     game_runner.next_generation!
+    clear_screen
     GameBoardPrinter.print(game_runner.board)
     sleep 1
   end
