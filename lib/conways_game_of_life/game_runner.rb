@@ -1,4 +1,6 @@
 class GameRunner
+  attr_reader :board
+
   def initialize(board)
     @board = board
   end
@@ -8,5 +10,9 @@ class GameRunner
       @board = @board.next_state
     end
     @board
+  end
+
+  def next_generation!
+    @board = @board.next_state
   end
 end

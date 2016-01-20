@@ -15,6 +15,14 @@ class GameBoard
     })
   end
 
+  def each_row
+    return to_enum(__callee__) unless block_given?
+
+    board.each do |row|
+      yield row
+    end
+  end
+
   def ==(other)
     board == other.board
   end
