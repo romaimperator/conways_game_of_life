@@ -53,18 +53,31 @@ class GameBoard
   def neighbors(row_number, column_number)
     return to_enum(__callee__, row_number, column_number) unless block_given?
 
-    neighbor_locations(row_number, column_number) do |neighbor_row, neighbor_column|
-      if in_board_bounds?(neighbor_row, neighbor_column)
-        yield board[neighbor_row][neighbor_column]
-      else
-        yield false
-      end
+    wrapped_neighbor_locations(row_number, column_number) do |neighbor_row, neighbor_column|
+      yield board[neighbor_row][neighbor_column]
     end
   end
 
   def in_board_bounds?(neighbor_row, neighbor_column)
     (neighbor_row >= 0 && neighbor_row < board.size) &&
       (neighbor_column >= 0 && neighbor_column < board.size)
+  end
+
+  def wrapped_neighbor_locations(row_number, column_number)
+    neighbor_locations(row_number, column_number) do |neighbor_row, neighbor_column|
+      yield wrap_around_board(neighbor_row),
+            wrap_around_board(neighbor_column)
+    end
+  end
+
+  def wrap_around_board(index)
+    if index < 0
+      board.size - 1
+    elsif index >= board.size
+      0
+    else
+      index
+    end
   end
 
   def neighbor_locations(row_number, column_number)
