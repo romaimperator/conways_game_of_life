@@ -10,22 +10,20 @@ end
 
 def main
   game_runner = GameRunner.new(
-    GameBoard.new([
-                    [false, false, false, false, false],
-                    [false, false, true, false, false],
-                    [false, false, false, true, false],
-                    [false, true, true, true, false],
-                    [false, false, false, false, false],
-                  ])
+    GameBoardParser.parse_into_game_board(".....
+                                           ..O..
+                                           ...O.
+                                           .OOO.
+                                           .....")
   )
 
   loop do
     break if @quit
 
-    game_runner.next_generation!
     clear_screen
     GameBoardPrinter.print(game_runner.board)
     sleep 1
+    game_runner.next_generation!
   end
 end
 

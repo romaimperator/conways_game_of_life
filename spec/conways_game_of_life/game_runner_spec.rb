@@ -10,19 +10,15 @@ RSpec.describe GameRunner do
   end
 
   describe "#next_generation!" do
-    Given(:game_board) { GameBoard.new([
-                                         [false, true, false, false],
-                                         [true, true, false, false],
-                                         [false, false, false, false],
-                                         [false, false, false, false],
-                                       ]) }
+    Given(:game_board) { GameBoardParser.parse_into_game_board(".O..
+                                                                OO..
+                                                                ....
+                                                                ....")}
     Given(:game_runner) { GameRunner.new(game_board) }
     When { game_runner.next_generation! }
-    Then { expect(game_runner.board).to eq(GameBoard.new([
-                                                           [true, true, false, false],
-                                                           [true, true, false, false],
-                                                           [false, false, false, false],
-                                                           [false, false, false, false],
-                                                         ]))}
+    Then { expect(game_runner.board).to eq(GameBoardParser.parse_into_game_board("OO..
+                                                                                  OO..
+                                                                                  ....
+                                                                                  ....")) }
   end
 end
